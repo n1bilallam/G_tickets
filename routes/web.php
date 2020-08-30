@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Project\ProjectsController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +18,17 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::group(['middleware'=>'auth'],function(){
+
+    Route::resource('projects','ProjectsController');
+
+    Route::post('/projects/{project}/comments','ProjectsCommentsController@store');
+    Route::get('/users/profile','UserController@profile');
+    Route::post('/users/profile','UserController@update');
+    Route::get('/home', 'HomeController@index')->name('home');
+});
+
+
+Auth::routes();
+
+
